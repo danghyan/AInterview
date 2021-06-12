@@ -26,7 +26,13 @@ namespace Accounts.Api.Models
         /// Числовой 20-и значный номер.
         /// </remarks>
         public string Number { get; }
-        
+
+        public int CustomerId { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public decimal Balance { get;internal set; }
+
         /// <summary>
         /// Ссылка на объект <see cref="Customer"/>, представляющий владельца счёта.
         /// </summary>

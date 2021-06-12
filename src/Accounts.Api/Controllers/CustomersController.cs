@@ -1,3 +1,4 @@
+using Accounts.Api.BL;
 using Accounts.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,13 +8,16 @@ namespace Accounts.Api.Controllers
     [Route("[controller]")]
     public class CustomersController : ControllerBase
     {
-        public CustomersController()
-        {
-        }
+        private readonly IAccountProvider _accountProvider;
         
+        public CustomersController(IAccountProvider accountProvider)
+        {
+            _accountProvider = accountProvider;
+        }
+        [HttpPost]
         public ActionResult<CurrentAccount> Create(PaymentOrder order)
         {
-            // реализовать Api формирования платёжного порученияя.
+            _accountProvider.AddNewPaymentOrder(order);
             return Ok(default);
         }
     }
