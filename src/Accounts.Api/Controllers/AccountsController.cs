@@ -1,5 +1,9 @@
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Accounts.Api.DB;
 using Accounts.Api.Models;
+using Accounts.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Accounts.Api.Controllers
@@ -8,25 +12,40 @@ namespace Accounts.Api.Controllers
     [Route("[controller]")]
     public class AccountsController : ControllerBase
     {
-        public AccountsController()
+        private readonly AccountService _accountService;
+
+        public AccountsController(AccountService accountService)
         {
+            _accountService = accountService;
         }
 
         public ActionResult<Collection<CurrentAccount>> Get()
         {
-            return Ok(default);
+            var accounts = _accountService.GetAllAccounts();
+
+            if (accounts != null)
+            {
+                return Ok(accounts);
+            }
+            return new EmptyResult();
         }
         
+        [HttpGet]
         public ActionResult<CurrentAccount> Get(string number)
         {
-            // реализовать Api получения счёта по идентификатору
-            return Ok(default);
+            var account = _accountService.GetCurrentAccount(number);
+
+            if (account != null)
+            {
+                return Ok(account);
+            }
+            return new EmptyResult();
         }
 
         public ActionResult<Collection<CurrentAccount>> Get(Customer customer)
         {
-            // реализовать Api получения счетов клиента
-            return Ok(default);
+            var accounts = _accountService.GetCurrentAccounts(customer.Id);
+            return Ok(accounts);
         }
     }
 }

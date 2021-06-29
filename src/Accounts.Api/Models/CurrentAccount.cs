@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Accounts.Api.Models
 {
@@ -25,8 +26,18 @@ namespace Accounts.Api.Models
         /// <remarks>
         /// Числовой 20-и значный номер.
         /// </remarks>
+        [StringLength(20, MinimumLength = 20)]
         public string Number { get; }
-        
+
+        /// <summary>
+        /// Владелец счета.
+        /// </summary>
+        public int CustomerId { get; }
+
+        /// <summary>
+        /// Баланс счета.
+        /// </summary>
+        public decimal Balance { get; }        
         /// <summary>
         /// Ссылка на объект <see cref="Customer"/>, представляющий владельца счёта.
         /// </summary>

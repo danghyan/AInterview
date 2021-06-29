@@ -1,5 +1,7 @@
 using Accounts.Api.Models;
+using Accounts.Api.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Accounts.Api.Controllers
 {
@@ -7,14 +9,24 @@ namespace Accounts.Api.Controllers
     [Route("[controller]")]
     public class CustomersController : ControllerBase
     {
-        public CustomersController()
+        private readonly CustomerService _customerService;
+
+        public CustomersController(CustomerService customerService)
         {
+            _customerService = customerService;
         }
         
         public ActionResult<CurrentAccount> Create(PaymentOrder order)
         {
-            // реализовать Api формирования платёжного порученияя.
-            return Ok(default);
+            try
+            {
+                _customerService.PaymentTransfer(order);
+                return Ok(default);
+            } 
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
